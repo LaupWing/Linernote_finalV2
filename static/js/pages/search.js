@@ -15,7 +15,7 @@ function renderSearchResults(result){
         <div data-id="${item.id}" class="result-item">
             <a class="result-link" href="/artist/${item.spotifyId}&${item.id}">
             <img class="result-img ${result.followed}" src="${img}" alt="">
-            <p class="result-name">${item.name}</p>
+            <p class="result-name">${item.artist}</p>
             </a>
         </div>
         `

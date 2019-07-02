@@ -5,6 +5,7 @@ const {soundCloud}  = require('./api.js')
 const {wikipedia}   = require('./api.js')
 const {ourDB}       = require('./api.js')
 const {musicBrainz} = require('./api.js')
+const {onlyUnique} = require('./utils.js')
 
 let following       
 
@@ -35,12 +36,13 @@ router.get('/index', async (req, res)=>{
     acces_token = req.session.acces_token
     const io = req.app.get('socketio')
     req.session.user = await ourDB.userInfo()
-    following = req.session.user.following
+    following = req.session.user.ordered
     io.on('connection', socket=>{
         socket.on('sending searchvalue',async (value)=>{
             try{
                 const result        = await ourDB.nameQuery(value)
-                const searchSpotify = await spotifyApi.search(result.name,acces_token)
+                console.log(result)
+                const searchSpotify = await spotifyApi.search(result.artist,acces_token)
                 const img           = searchSpotify.artists.items[0].images[0].url
                 const spotifyId     = searchSpotify.artists.items[0].id
                 result.img          = img
@@ -73,8 +75,8 @@ router.get('/index', async (req, res)=>{
             },1000)
         })
     })
-    if(req.session.user.following.length>0){
-        const list = await getCorrespondingImg(req.session.user.following)
+    if(req.session.user.ordered.length>0){
+        const list = await getCorrespondingImg(req.session.user.ordered)
         res.render('index',{
             currentPage: 'partials/followingList.ejs',
             list,
@@ -105,8 +107,8 @@ router.get('/search', (req, res)=>{
 router.get('/homefeed', async (req, res)=>{
     const feeds = following.map(async (fw)=>{
         const artistFeed = await ourDB.detail(fw.id)
-        const soundcloud = await soundCloud(artistFeed.name)
-        const spotify    = await spotifyApi.search(artistFeed.name, acces_token)
+        const soundcloud = await soundCloud(artistFeed.artist)
+        const spotify    = await spotifyApi.search(artistFeed.artist, acces_token)
         const img        = spotify.artists.items[0].images[0].url
         const posts ={
             twitter: artistFeed.tweets,
@@ -114,7 +116,7 @@ router.get('/homefeed', async (req, res)=>{
             events: artistFeed.events,
             youtube: artistFeed['youtube-videos'],
             soundcloud,
-            name: artistFeed.name,
+            name: artistFeed.artist,
             img
         }
         return posts
@@ -190,9 +192,13 @@ router.get('/testing', async(req,res)=>{
 })
 
 async function getCorrespondingImg(list){
-    // Getting corresponding img from 
+    // Getting corresponding img from
+    const filteredList = list
+        .map(item=>item.artist)
+        .filter(onlyUnique)  
     const spotify = list
-        .map(item=>item.name)
+        .map(item=>item.artist)
+        .filter(onlyUnique)
         .map(name=>{
             return spotifyApi.search(name, acces_token)
         })
@@ -201,8 +207,13 @@ async function getCorrespondingImg(list){
         .map(artists=>artists.artists.items[0].images[0].url)
     const spotifyID  = response
         .map(artists=>artists.artists.items[0].id)
-    const related = list.map((a,index)=>{
-        let artist       = a
+    console.log(images)
+    console.log(spotifyID)
+    console.log(filteredList)
+    const related = filteredList.map((a,index)=>{
+        let artist       = {
+            artist: a
+        }
         artist.img       = images[index]
         artist.spotifyId = spotifyID[index]
         return artist

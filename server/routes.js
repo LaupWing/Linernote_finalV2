@@ -105,23 +105,32 @@ router.get('/search', (req, res)=>{
 })
 
 router.get('/homefeed', async (req, res)=>{
-    const feeds = following.map(async (fw)=>{
-        const artistFeed = await ourDB.detail(fw.id)
-        const soundcloud = await soundCloud(artistFeed.artist)
-        const spotify    = await spotifyApi.search(artistFeed.artist, acces_token)
-        const img        = spotify.artists.items[0].images[0].url
-        const posts ={
-            twitter: artistFeed.tweets,
-            instagram: artistFeed.instagramPosts,
-            events: artistFeed.events,
-            youtube: artistFeed['youtube-videos'],
-            soundcloud,
-            name: artistFeed.artist,
-            img
-        }
-        return posts
+    const feed = following.map(async(fw)=>{
+        const follower      = fw 
+        const soundcloud    = await soundCloud(follower.artist)
+        const spotify       = await spotifyApi.search(follower.artist, acces_token)
+        const img           = spotify.artists.items[0].images[0].url
+        follower.img        = img
+        follower.soundCloud = soundcloud
+
+        return follower
     })
-    const artists = await Promise.all(feeds)
+    const artists = await Promise.all(feed)
+    console.log(artists)
+    // const feeds = following.map(async (fw)=>{
+    //     const artistFeed = await ourDB.detail(fw.id)
+    //     const posts ={
+    //         twitter: artistFeed.tweets,
+    //         instagram: artistFeed.instagramPosts,
+    //         events: artistFeed.events,
+    //         youtube: artistFeed['youtube-videos'],
+    //         soundcloud,
+    //         name: artistFeed.artist,
+    //         img
+    //     }
+    //     return posts
+    // })
+    // const artists = await Promise.all(feeds)
     res.render('partials/homefeed', {artists})
 })
 

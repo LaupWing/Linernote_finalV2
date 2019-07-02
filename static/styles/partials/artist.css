@@ -292,9 +292,12 @@ section#feed{
   align-items: center;
   flex-direction: column;
 }
-iframe{
-  border: none;
-  width: 100%;
+iframe,
+twitter-widget{
+  border: none!important;
+  width: 100%!important;
+  margin: 0!important;
+  margin-top: auto!important;
 }
 .iframe-wrapper {
   margin: 20px auto;

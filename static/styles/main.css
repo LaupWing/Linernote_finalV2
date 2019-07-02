@@ -1,3 +1,12 @@
+@import "partials/keyframes.css";
+@import "partials/nav.css";
+@import "partials/login.css";
+@import "partials/index.css";
+@import "partials/search.css";
+@import "partials/artist.css";
+@import "partials/filter.css";
+
+
 :root{
     --main-bg-color: #171717;
     --gradient: linear-gradient(rgba(200,200,200,0), #171717);

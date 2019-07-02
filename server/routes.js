@@ -4,6 +4,7 @@ const {spotifyApi}  = require('./api.js')
 const {soundCloud}  = require('./api.js')
 const {wikipedia}   = require('./api.js')
 const {ourDB}       = require('./api.js')
+const {musicBrainz} = require('./api.js')
 
 let following       
 
@@ -183,9 +184,9 @@ router.post('/feed', async(req,res)=>{
 
 
 
-router.post('/testing', async(req,res)=>{
-    console.log(req.body)
-    res.send('index')
+router.get('/testing', async(req,res)=>{
+    const data = await musicBrainz.artistLinks('post malone')
+    res.send(data)
 })
 
 async function getCorrespondingImg(list){

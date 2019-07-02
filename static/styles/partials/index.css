@@ -1,7 +1,7 @@
 .following{
     margin-top: 5vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     color: white;
@@ -34,7 +34,7 @@
     max-width: 90%;
 }
 .following ul.list a{
-    margin: 0 15px;
+    margin: 0 8px;
 }
 .following ul.list a.following li{
     padding: 10px;

@@ -43,7 +43,6 @@ const ourDB ={
 
 const musicBrainz = {
     artistLinks: async name => {
-        console.log(name)
         const artist = await getData(`http://musicbrainz.org/ws/2/artist/?query=artist:${name}&fmt=json`)
         const artistId = artist.artists[0].id
         const artistLinks = await getData(`http://musicbrainz.org/ws/2/artist/${artistId}?inc=url-rels&fmt=json`)
@@ -85,7 +84,6 @@ const soundCloud = async (name) =>{
 
 const wikipedia = async(name)=>{
     try{
-        console.log(name)
         const allLinks  = await musicBrainz.artistLinks(removeAllNonAlpha(name))
         const getLink = allLinks.filter(searchObj('wikipedia'))
         const hardCodedLink = `https://en.wikipedia.org/api/rest_v1/page/summary/${name}`
@@ -103,7 +101,6 @@ const wikipedia = async(name)=>{
 const instagram = async (name)=>{
     try{
         const allLinks  = await musicBrainz.artistLinks(removeAllNonAlpha(name))
-        console.log(allLinks)
         const instaLink = allLinks.filter(searchObj('instagram'))[0].urlrsc
         const browser = await puppeteer.launch()
         const page = await browser.newPage()

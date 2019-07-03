@@ -1,6 +1,7 @@
 import * as states from './page-states/states.js'
 import * as navigation from './page-parts/navigation.js'
 import * as feed from './page-operators/feed.js'
+import removeChilds from '../utils.js'
 import {socket} from '../socket.js'
 
 function events(){

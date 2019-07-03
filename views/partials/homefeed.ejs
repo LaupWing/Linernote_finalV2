@@ -1,10 +1,15 @@
 <% artists.forEach(artist=>{%>
     <% if(artist.mediaType==='instagram'){ %>
-        <div class="iframe-wrapper">
+        <div class="iframe-wrapper"
+            data-date="<%= new Date(artist.timestamp) %>"
+        >
             <header class="iframe">
                 <div class="artist">
                     <img src="<%=artist.img%>" alt="">
-                    <p><%=artist.artist%></p>
+                    <div class="post-info">
+                        <p><%=artist.artist%></p>
+                        <p class="date"><%=artist.date%></p>
+                    </div>
                 </div>
                 <img src="/img/instagram.png" alt="">
             </header>
@@ -18,7 +23,10 @@
             <header class="iframe">
                 <div class="artist">
                     <img src="<%=artist.img%>" alt="">
-                    <p><%=artist.artist%></p>
+                    <div class="post-info">
+                        <p><%=artist.artist%></p>
+                        <p class="date"><%=artist.date%></p>
+                    </div>
                 </div>
                 <img src="/img/youtube.png" alt="">
             </header>
@@ -35,11 +43,15 @@
             <header class="iframe">
                 <div class="artist">
                     <img src="<%=artist.img%>" alt="">
-                    <p><%=artist.artist%></p>
+                    <div class="post-info">
+                        <p><%=artist.artist%></p>
+                        <p class="date"><%=artist.date%></p>
+                    </div>
                 </div>
-                Twitter
+                <img src="/img/twitter.png" alt="">
             </header>
             <%-artist.html%>
         </div>
     <% } %>
 <%}) %>
+<i class="fas fa-chevron-up"></i>

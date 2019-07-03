@@ -68,7 +68,7 @@ router.get('/index', async (req, res)=>{
             setTimeout(async()=>{
                 const user = await ourDB.userInfo()
                 req.session.user = user
-                following = user.following
+                following = user.ordered
             },1000)
         })
     })
@@ -81,7 +81,6 @@ router.get('/index', async (req, res)=>{
             return follower
         })
         const list = await Promise.all(test)
-        console.log(list)
         res.render('index',{
             currentPage: 'partials/followingList.ejs',
             list,
@@ -111,31 +110,27 @@ router.get('/search', (req, res)=>{
 router.get('/homefeed', async (req, res)=>{
     const feed = following.map(async(fw)=>{
         const follower      = fw 
-        const soundcloud    = await soundCloud(follower.artist)
+        // const soundcloud    = await soundCloud(follower.artist)
         const spotify       = await spotifyApi.search(follower.artist, acces_token)
         const img           = spotify.artists.items[0].images[0].url
         follower.img        = img
-        follower.soundCloud = soundcloud
+        // follower.soundCloud = soundcloud
         return follower
     })
-    const artists = await Promise.all(feed)
-    // console.log(artists)
-    // const feeds = following.map(async (fw)=>{
-    //     const artistFeed = await ourDB.detail(fw.id)
-    //     const posts ={
-    //         twitter: artistFeed.tweets,
-    //         instagram: artistFeed.instagramPosts,
-    //         events: artistFeed.events,
-    //         youtube: artistFeed['youtube-videos'],
-    //         soundcloud,
-    //         name: artistFeed.artist,
-    //         img
-    //     }
-    //     return posts
-    // })
-    // const artists = await Promise.all(feeds)
+    const response = await Promise.all(feed)
+    const artists   = response.map(dateFormatter)
     res.render('partials/homefeed', {artists})
 })
+
+function dateFormatter(item){
+    const post     = item 
+    const raw_date = new Date(post.timestamp)
+    const date     =  String(raw_date).split('GMT')[0]
+    post.date      = date
+    return post
+}
+
+
 
 router.get('/artist/:id', async(req,res)=>{
     const ids         = req.params.id
@@ -144,9 +139,9 @@ router.get('/artist/:id', async(req,res)=>{
     const spotifyId   = ids.split('&')[0]
     const zekkieId    = ids.split('&')[1]
 
-    const list    = await ourDB.list()
-    
+    const list       = await ourDB.list()
     const related    = await getCorrespondingImg(list)
+    
     const related2   = related
         .map(r=>{
             let obj = r
@@ -183,14 +178,19 @@ router.get('/artist/:id', async(req,res)=>{
 router.post('/feed', async(req,res)=>{
     const id         = req.body.id
     const artistFeed = await ourDB.detail(id)
+    console.log(artistFeed.artist)
+    const spotify    = await spotifyApi.search(artistFeed.artist, req.session.acces_token)
+    const img        = spotify.artists.items[0].images[0].url
 
     const soundcloud = await soundCloud(artistFeed.name)
     const posts ={
-        twitter: artistFeed.tweets,
-        instagram: artistFeed.instagramPosts,
-        events: artistFeed.events,
-        youtube: artistFeed['youtube-videos'],
-        soundcloud
+        twitter: artistFeed.twitterPosts.map(dateFormatter),
+        instagram: artistFeed.instagramPosts.map(dateFormatter),
+        events: artistFeed.events.map(dateFormatter),
+        youtube: artistFeed.youtubeVideos.map(dateFormatter),
+        soundcloud,
+        img,
+        artist: artistFeed.artist
     }
     res.render('partials/artist-partials/feeds', posts)
 })
@@ -206,7 +206,8 @@ async function getCorrespondingImg(list){
     // Getting corresponding img from
     const filteredList = list
         .map(item=>checkProperty(item))
-        .filter(onlyUnique)  
+        .filter(onlyUnique)
+          
     const spotify = list
         .map(item=>checkProperty(item))
         .filter(onlyUnique)
@@ -218,12 +219,20 @@ async function getCorrespondingImg(list){
         .map(artists=>artists.artists.items[0].images[0].url)
     const spotifyID  = response
         .map(artists=>artists.artists.items[0].id)
+    
+    const ourData   =  filteredList.map(name=>{
+        return ourDB.nameQuery(name)
+    })
+    const response2 = await Promise.all(ourData)
+    const zekkieId  = response2.map(res=>res.id)
+
     const related = filteredList.map((a,index)=>{
         let artist       = {
             artist: a
         }
         artist.img       = images[index]
         artist.spotifyId = spotifyID[index]
+        artist.id        = zekkieId[index]
         return artist
     })
     return related

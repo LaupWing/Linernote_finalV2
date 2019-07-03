@@ -3,6 +3,13 @@
     <% instagram.forEach((i)=>{ %>
         <div class="iframe-wrapper">
             <header class="iframe">
+                <div class="artist">
+                    <img src="<%=img%>" alt="">
+                    <div class="post-info">
+                        <p><%=artist%></p>
+                        <p class="date"><%=i.date%></p>
+                    </div>
+                </div>
                 <img src="/img/instagram.png" alt="">
             </header>
             <%-i.html%>
@@ -24,6 +31,13 @@
             data-date="<%= yt.post_date %>" 
         >
             <header class="iframe">
+                <div class="artist">
+                    <img src="<%=img%>" alt="">
+                    <div class="post-info">
+                        <p><%=artist%></p>
+                        <p class="date"><%=yt.date%></p>
+                    </div>
+                </div>
                 <img src="/img/youtube.png" alt="">
             </header>
             <iframe
@@ -39,6 +53,13 @@
             data-date="<%= tw.post_date %>"
         >
             <header class="iframe">
+                <div class="artist">
+                    <img src="<%=img%>" alt="">
+                    <div class="post-info">
+                        <p><%=artist%></p>
+                        <p class="date"><%=tw.date%></p>
+                    </div>
+                </div>
                 Twitter
             </header>
             <%-tw.html%>

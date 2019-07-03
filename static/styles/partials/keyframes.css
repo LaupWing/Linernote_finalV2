@@ -21,7 +21,8 @@ main.artist-page h4{
 }
 
 main.artist-page.fadeAway img,
-main.artist-page.fadeAway .header-section.info,
+main.artist-page.fadeAway .header-section.info h1,
+main.artist-page.fadeAway .header-section.info a,
 main.artist-page.fadeAway .image-container{
     opacity: 0;
 }

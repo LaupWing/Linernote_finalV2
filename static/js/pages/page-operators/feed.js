@@ -28,7 +28,7 @@ async function requestingFeed(id){
 
 function iframeActivate(){
     instgrm.Embeds.process()
-    soundCloudEmbeds()
+    // soundCloudEmbeds()
     twttr.widgets.load()
 }
 

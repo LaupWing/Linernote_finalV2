@@ -71,3 +71,22 @@ section#homeFeed{
     align-items: center;
     flex-direction: column; 
 }
+
+#homeFeed i{
+    position: fixed;
+    bottom: 70px;
+    font-size: 30px;
+    color: rgba(0,0,0,.6);
+    animation: fadeInOut 2s infinite;
+}
+
+@keyframes fadeInOut{
+    0%{
+        opacity: 1;
+        transform: translate(0,0)
+    }
+    100%{
+        opacity: 0;
+        transform: translate(0,-20%);
+    }
+}

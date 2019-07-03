@@ -34,6 +34,7 @@ function checkWhichPage(){
     }
     else if(document.querySelector('section#homeFeed')){
         navigation.events(document.querySelectorAll('ul.list a'))
+        console.log("%c fetchHTML- Requesting Homefeed", consoleStyling)
         homepage.requestHomeFeed()
     }
     else if(document.querySelector('.image-container-following')){

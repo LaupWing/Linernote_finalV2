@@ -191,16 +191,16 @@ router.post('/feed', async(req,res)=>{
     const spotify    = await spotifyApi.search(artistFeed.artist, req.session.acces_token)
     const img        = spotify.artists.items[0].images[0].url
 
-    const soundcloud = await soundCloud(artistFeed.name)
     const posts ={
-        twitter: artistFeed.twitterPosts.map(dateFormatter),
-        instagram: artistFeed.instagramPosts.map(dateFormatter),
-        events: artistFeed.events.map(dateFormatter),
-        youtube: artistFeed.youtubeVideos.map(dateFormatter),
-        soundcloud,
+        twitter   : artistFeed.twitterPosts.map(dateFormatter),
+        instagram : artistFeed.instagramPosts.map(dateFormatter),
+        events    : artistFeed.events.map(dateFormatter),
+        youtube   : artistFeed.youtubeVideos.map(dateFormatter),
         img,
-        artist: artistFeed.artist
+        artist    : artistFeed.artist
     }
+    const mediaBtns = clean(posts)
+    posts.mediaBtns = mediaBtns
     res.render('partials/artist-partials/feeds', posts)
 })
 
@@ -255,6 +255,16 @@ function checkProperty(item){
     }
 }
 
-
+function clean(obj) {
+    const btnText = []
+    for (let propName in obj) { 
+        console.log(propName ,obj[propName].length)
+        if (Number(obj[propName].length) !== Number(0)) {
+            btnText.push(propName)
+        }
+    }
+    return btnText
+  }
+  
 
 module.exports = router

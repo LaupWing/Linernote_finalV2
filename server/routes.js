@@ -162,6 +162,7 @@ router.get('/artist/:id', async(req,res)=>{
                 }
             }
         })
+        .filter(x=>x.id!==Number(zekkieId))
     const artist     = await spotifyApi.artist(spotifyId, acces_token)
     const data       = await ourDB.detail(zekkieId)
     const wikidata   = data.wikiDescription.wiki_description

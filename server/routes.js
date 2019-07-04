@@ -140,9 +140,9 @@ router.get('/artist/:id', async(req,res)=>{
     const zekkieId    = ids.split('&')[1]
 
     const list       = await ourDB.list()
-    const related    = await getCorrespondingImg(list)
+    const imgRes     = await getCorrespondingImg(list)
     
-    const related2   = related
+    const related   = imgRes
         .map(r=>{
             let obj = r
             for(f of following.filter(onlyUnique)){
@@ -153,6 +153,15 @@ router.get('/artist/:id', async(req,res)=>{
             }
             obj.border = 'noborder'
             return obj
+        })
+        .sort((a,b)=>{
+            for(f of following.filter(onlyUnique)){
+                if(f.artist === a.artist){
+                    return -1
+                }else{
+                    return 1
+                }
+            }
         })
     const artist     = await spotifyApi.artist(spotifyId, acces_token)
     const data       = await ourDB.detail(zekkieId)

@@ -1,4 +1,31 @@
 <% artists.forEach(artist=>{%>
+    <% if(artist.mediaType==='event_name'){%>
+        <div class="iframe-wrapper"
+            data-timestamp="<%=artist.timestamp%>"
+            data-platform="events"
+        >
+            <header class="iframe">
+                <div class="artist">
+                    <img src="<%=artist.img%>" alt="">
+                    <div class="post-info">
+                        <p><%=artist.artist%></p>
+                        <p class="date"><%=artist.date%></p>
+                    </div>
+                </div>
+                <img class="ticketmaster" src="/img/ticketmaster.png" alt="">
+            </header>
+            <div class="ticketmaster-info">
+                <div class="img">
+                    <img src="<%=artist.image%>" alt="">
+                </div>
+                <div class="event-info">
+                    <p class="location"><%= artist.city %>-<%= artist.country %></p>
+                    <p class="date"><%= artist.date %></p>
+                </div>
+                <a class="ticket" href="<%=artist.url%>">Buy Ticket</a>
+            </div>
+        </div>
+    <% } %>    
     <% if(artist.mediaType==='instagram'){ %>
         <div class="iframe-wrapper"
             data-timestamp="<%= artist.timestamp %>"

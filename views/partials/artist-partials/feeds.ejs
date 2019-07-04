@@ -2,8 +2,8 @@
 <% if(events){ %>
     <% events.forEach((e)=>{ %>
         <div class="iframe-wrapper"
-        data-timestamp="<%=e.timestamp%>"
-        data-platform="events"
+            data-timestamp="<%=e.timestamp%>"
+            data-platform="events"
         >
             <header class="iframe">
                 <div class="artist">
@@ -15,6 +15,16 @@
                 </div>
                 <img class="ticketmaster" src="/img/ticketmaster.png" alt="">
             </header>
+            <div class="ticketmaster-info">
+                <div class="img">
+                    <img src="<%=e.image%>" alt="">
+                </div>
+                <div class="event-info">
+                    <p class="location"><%= e.city %>-<%= e.country %></p>
+                    <p class="date"><%= e.date %></p>
+                </div>
+                <a class="ticket" href="<%=e.url%>">Buy Ticket</a>
+            </div>
         </div>
     <% }) %>
 <% } %>

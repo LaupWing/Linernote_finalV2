@@ -365,6 +365,9 @@ header.iframe .artist p{
 header.iframe img{
   width: 30px;
 }
+header.iframe img.ticketmaster{
+  width: 80px;
+}
 
 .post-info .date{
   opacity: .3; 

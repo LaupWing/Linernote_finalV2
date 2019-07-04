@@ -1,7 +1,8 @@
 <% artists.forEach(artist=>{%>
     <% if(artist.mediaType==='instagram'){ %>
         <div class="iframe-wrapper"
-            data-date="<%= new Date(artist.timestamp) %>"
+            data-timestamp="<%= artist.timestamp %>"
+            data-platform="instagram"
         >
             <header class="iframe">
                 <div class="artist">
@@ -18,7 +19,8 @@
     <% } %>
     <% if (artist.mediaType==='youtube'){ %>
         <div class="iframe-wrapper"
-            data-date="<%= new Date(artist.timestamp) %>" 
+            data-timestamp="<%= artist.timestamp %>"
+            data-platform="youtube" 
         >
             <header class="iframe">
                 <div class="artist">
@@ -38,7 +40,8 @@
     
     <% if (artist.mediaType==='tweet'){ %>
         <div class="iframe-wrapper"
-            data-date="<%= new Date(artist.timestamp) %>"
+            data-timestamp="<%= artist.timestamp %>"
+            data-platform="twitter"
         >
             <header class="iframe">
                 <div class="artist">

@@ -1,7 +1,29 @@
 <% include filter.ejs %>
+<% if(events){ %>
+    <% events.forEach((e)=>{ %>
+        <div class="iframe-wrapper"
+        data-timestamp="<%=e.timestamp%>"
+        data-platform="events"
+        >
+            <header class="iframe">
+                <div class="artist">
+                    <img src="<%=img%>" alt="">
+                    <div class="post-info">
+                        <p><%=artist%></p>
+                        <p class="date"><%=e.date%></p>
+                    </div>
+                </div>
+                <img class="ticketmaster" src="/img/ticketmaster.png" alt="">
+            </header>
+        </div>
+    <% }) %>
+<% } %>
 <% if(instagram){ %>
     <% instagram.forEach((i)=>{ %>
-        <div class="iframe-wrapper">
+        <div class="iframe-wrapper"
+            data-timestamp="<%=i.timestamp%>"
+            data-platform="instagram"
+        >
             <header class="iframe">
                 <div class="artist">
                     <img src="<%=img%>" alt="">
@@ -16,19 +38,11 @@
         </div>
     <% }) %>
 <% } %>
-<% if(soundcloud){ %>
-    <% soundcloud.forEach((url, i)=>{ %>
-        <div data-url='<%=url%>' class="putTheWidgetHere iframe-wrapper" id="id<%=i%>">
-            <header class="iframe">
-                <img src="/img/soundcloud.png" alt="">
-            </header>
-        </div>
-    <% }) %>
-<% } %>
 <% if (youtube){ %>
     <% youtube.forEach((yt)=>{ %>
         <div class="iframe-wrapper"
-            data-date="<%= yt.post_date %>" 
+            data-timestamp="<%=yt.timestamp%>"
+            data-platform="youtube" 
         >
             <header class="iframe">
                 <div class="artist">
@@ -50,7 +64,8 @@
 <% if (twitter){ %>
     <% twitter.forEach((tw)=>{ %>
         <div class="iframe-wrapper"
-            data-date="<%= tw.post_date %>"
+            data-timestamp="<%=tw.timestamp%>"
+            data-platform="twitter"
         >
             <header class="iframe">
                 <div class="artist">

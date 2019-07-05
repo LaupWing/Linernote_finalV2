@@ -257,12 +257,21 @@ function checkProperty(item){
 function clean(obj) {
     const btnText = []
     for (let propName in obj) { 
-        console.log(propName ,obj[propName].length)
         if (Number(obj[propName].length) !== Number(0)) {
             btnText.push(propName)
         }
     }
+    let test = btnText
+        .filter(x=>{
+            if(toString(x)!=='img'||toString(x)!=='artist'){
+                console.log(x)
+            }
+            return x!=='img'||x!=='artist'
+        })
+    // console.log(btnText)
+    console.log(test)
     return btnText
+        .filter(x=>x!=='img'||x!=='artist')
   }
   
 

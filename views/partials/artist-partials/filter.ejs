@@ -13,8 +13,8 @@
         <label for="trending">Trending</label>
     </div>
     <div class="keywords">
-        <button>Instagram</button>
-        <button>Youtube</button>
-        <button>Ticketmaster</button>
+        <% mediaBtns.forEach(btn=>{ %>
+            <button><%= btn %></button>
+        <% }) %>
     </div>
 </div>

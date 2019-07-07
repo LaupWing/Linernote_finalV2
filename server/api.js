@@ -46,13 +46,6 @@ const musicBrainz = {
         const artist = await getData(`http://musicbrainz.org/ws/2/artist/?query=artist:${name}&fmt=json`)
         const artistId = artist.artists[0].id
         const artistLinks = await getData(`http://musicbrainz.org/ws/2/artist/${artistId}?inc=url-rels&fmt=json`)
-        // return artistLinks.relations
-        //     .map(rel=>{
-        //         return{
-        //             type:       rel.type,
-        //             urlrsc:     rel.url.resource
-        //         }
-        //     })
         return artistLinks
     },
 }

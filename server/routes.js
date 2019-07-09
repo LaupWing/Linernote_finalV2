@@ -118,9 +118,14 @@ router.get('/homefeed', async (req, res)=>{
     const btns     = []
     for(let a of artists){
         btns.push(a.artist)
-        btns.push(a.mediaType)
+        if(a.mediaType==='event_name'){
+            btns.push('events')
+        }else{
+            btns.push(a.mediaType)
+        }
     }
     const mediaBtns = btns.filter(onlyUnique)
+    console.log(mediaBtns)
     res.render('partials/homefeed', {artists,mediaBtns})
 })
 

@@ -1,9 +1,10 @@
 let prevConfig = null
 let allPosts = null
+const iframeContainer = document.querySelector('#feed') || document.querySelector('#homeFeed') 
 function event(){
     document.querySelector('.filter-btn').addEventListener('click', showFilters)
     prevConfig = checkFilters()
-    allPosts = Array.from(document.querySelectorAll('#feed .iframe-wrapper'))
+    allPosts = Array.from(iframeContainer.querySelectorAll('.iframe-wrapper'))
     console.log(prevConfig, allPosts)
 }
 
@@ -54,13 +55,16 @@ function adjustContent(){
     if(allPosts!==null){
         posts = allPosts 
     }else{
-        posts = Array.from(document.querySelectorAll('#feed .iframe-wrapper'))
+        posts = Array.from(iframeContainer.querySelectorAll('.iframe-wrapper'))
     }
     const filtered = posts.filter(post=>{
-        console.log(post)
         for(let keyword of config.keywords){
-            console.log(keyword)
-            if(keyword===post.dataset.platform) return post
+            if(keyword.toLowerCase()===post.dataset.artist.toLowerCase()){
+                console.log(post.dataset.artist)
+                for(let keyword of config.keywords){
+                    if(keyword===post.dataset.platform) return post
+                }
+            }
         }
     })
     if(config.valueBy === 'recent'){
@@ -92,17 +96,15 @@ function adjustContent(){
 
 function reRenderFeed(posts){
     removePosts()
-    const container = document.querySelector('#feed')
     posts.forEach(post=>{
         console.log(post)
-        container.insertAdjacentElement('beforeend', post)
+        iframeContainer.insertAdjacentElement('beforeend', post)
     })
 }
 function removePosts(){
-    const container = document.querySelector('#feed')
-    if(container===null)    return
-    while(container.querySelector('.iframe-wrapper')){
-        container.removeChild(container.querySelector('.iframe-wrapper'))
+    if(iframeContainer===null)    return
+    while(iframeContainer.querySelector('.iframe-wrapper')){
+        iframeContainer.removeChild(iframeContainer.querySelector('.iframe-wrapper'))
     }
 }
 

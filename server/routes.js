@@ -108,16 +108,20 @@ router.get('/search', (req, res)=>{
 router.get('/homefeed', async (req, res)=>{
     const feed = following.map(async(fw)=>{
         const follower      = fw 
-        // const soundcloud    = await soundCloud(follower.artist)
         const spotify       = await spotifyApi.search(follower.artist, acces_token)
         const img           = spotify.artists.items[0].images[0].url
         follower.img        = img
-        // follower.soundCloud = soundcloud
         return follower
     })
     const response = await Promise.all(feed)
-    const artists   = response.map(dateFormatter)
-    res.render('partials/homefeed', {artists})
+    const artists  = response.map(dateFormatter)
+    const btns     = []
+    for(let a of artists){
+        btns.push(a.artist)
+        btns.push(a.mediaType)
+    }
+    const mediaBtns = btns.filter(onlyUnique)
+    res.render('partials/homefeed', {artists,mediaBtns})
 })
 
 function dateFormatter(item){

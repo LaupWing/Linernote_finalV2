@@ -1,8 +1,10 @@
+<%- include artist-partials/filter %>
 <% artists.forEach(artist=>{%>
     <% if(artist.mediaType==='event_name'){%>
         <div class="iframe-wrapper"
             data-timestamp="<%=artist.timestamp%>"
             data-platform="events"
+            data-artist="<%= artist.artist %>"
         >
             <header class="iframe">
                 <div class="artist">
@@ -30,6 +32,7 @@
         <div class="iframe-wrapper"
             data-timestamp="<%= artist.timestamp %>"
             data-platform="instagram"
+            data-artist="<%= artist.artist %>"
         >
             <header class="iframe">
                 <div class="artist">
@@ -48,6 +51,7 @@
         <div class="iframe-wrapper"
             data-timestamp="<%= artist.timestamp %>"
             data-platform="youtube" 
+            data-artist="<%= artist.artist %>"
         >
             <header class="iframe">
                 <div class="artist">
@@ -69,6 +73,7 @@
         <div class="iframe-wrapper"
             data-timestamp="<%= artist.timestamp %>"
             data-platform="twitter"
+            data-artist="<%= artist.artist %>"
         >
             <header class="iframe">
                 <div class="artist">

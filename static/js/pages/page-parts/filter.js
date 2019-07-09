@@ -1,11 +1,16 @@
 let prevConfig = null
 let allPosts = null
-const iframeContainer = document.querySelector('#feed') || document.querySelector('#homeFeed') 
+let iframeContainer = null
 function event(){
     document.querySelector('.filter-btn').addEventListener('click', showFilters)
     prevConfig = checkFilters()
+    if(document.querySelector('#feed')){
+        iframeContainer = document.querySelector('#feed')
+    }else{
+        iframeContainer = document.querySelector('#homeFeed') 
+    }
     allPosts = Array.from(iframeContainer.querySelectorAll('.iframe-wrapper'))
-    console.log(prevConfig, allPosts)
+    console.log(iframeContainer)
 }
 
 function showFilters(){
@@ -58,12 +63,18 @@ function adjustContent(){
         posts = Array.from(iframeContainer.querySelectorAll('.iframe-wrapper'))
     }
     const filtered = posts.filter(post=>{
-        for(let keyword of config.keywords){
-            if(keyword.toLowerCase()===post.dataset.artist.toLowerCase()){
-                console.log(post.dataset.artist)
-                for(let keyword of config.keywords){
-                    if(keyword===post.dataset.platform) return post
+        if(post.dataset.artist!==undefined){
+            for(let keyword of config.keywords){
+                if(keyword.toLowerCase()===post.dataset.artist.toLowerCase()){
+                    console.log(post.dataset.artist)
+                    for(let keyword of config.keywords){
+                        if(keyword===post.dataset.platform) return post
+                    }
                 }
+            }
+        }else{
+            for(let keyword of config.keywords){
+                if(keyword===post.dataset.platform) return post
             }
         }
     })
@@ -96,6 +107,7 @@ function adjustContent(){
 
 function reRenderFeed(posts){
     removePosts()
+    console.log(iframeContainer)
     posts.forEach(post=>{
         console.log(post)
         iframeContainer.insertAdjacentElement('beforeend', post)
@@ -103,6 +115,7 @@ function reRenderFeed(posts){
 }
 function removePosts(){
     if(iframeContainer===null)    return
+    console.log('deleting')
     while(iframeContainer.querySelector('.iframe-wrapper')){
         iframeContainer.removeChild(iframeContainer.querySelector('.iframe-wrapper'))
     }

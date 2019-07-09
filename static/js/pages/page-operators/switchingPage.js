@@ -2,8 +2,6 @@ import * as preventError from '../error-preventing/preventError.js'
 import * as states from '../page-states/states.js'
 import * as fetchHTML from '../page-operators/fetchHTML.js'
 
-console.log(states.url)
-
 const consoleStyling = 'color: white; background: blue'
 
 function renderNewPage(){
@@ -12,7 +10,6 @@ function renderNewPage(){
     if(this.href === 'javascript:void(0);')   return
     states.prevState.push(states.url)
     states.setUrl(this.href)
-    console.log(states.url)
     const main = document.querySelector('main')
     main.classList.add('fadeAway')
     preventError.turnOffLink(true)

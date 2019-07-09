@@ -28,9 +28,9 @@
     color: white;
     flex-direction: column;
     padding: 20px;
-    transform: translate(0,0);
+    transform: translate(0,100%);
     transition: .5s;
-    opacity: 1;
+    opacity: 0;
     user-select: none;
 }
 .filter-screen.reveal{
@@ -76,13 +76,25 @@
     margin-bottom: 20px;
 }
 .filter-screen button{
+    border: solid 1px white;
+    color: white;
+    background: transparent;
     border-radius: 40px;
     padding: 10px 15px;
     margin: 10px;
-    border: none;
+    outline: none;
     text-transform: capitalize;
 }
 .filter-screen button.active{
     background: white;
     color: rgba(0,0,0,0.8);
+}
+.filter-screen p.reset{
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    position: absolute;
+    bottom: 12%;
+    left:10%;
 }

@@ -1,5 +1,6 @@
+import * as fetchHTML from '../page-operators/fetchHTML.js'
 let url         = 'http://localhost:3001/home'
-const prevState = []
+let prevState = []
 
 function getPrevState(){
     const container = document.querySelector('main')

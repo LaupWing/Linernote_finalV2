@@ -161,7 +161,7 @@ router.get('/artist/:id', async(req,res)=>{
                 }
             }
         })
-        .filter(x=>x.id!==Number(zekkieId))
+        // .filter(x=>x.id!==Number(zekkieId))
     const artist     = await spotifyApi.artist(spotifyId, acces_token)
     const data       = await ourDB.detail(zekkieId)
     const wikidata   = data.wikiDescription.wiki_description
@@ -199,7 +199,13 @@ router.post('/feed', async(req,res)=>{
         artist    : artistFeed.artist
     }
     const mediaBtns = clean(posts)
-    posts.mediaBtns = mediaBtns
+    posts.mediaBtns = []
+    mediaBtns.forEach(btn=>{
+        if(btn === 'img')           return
+        else if(btn === 'artist')   return
+        else                        posts.mediaBtns.push(btn)
+    })
+    console.log(posts.mediaBtns)
     res.render('partials/artist-partials/feeds', posts)
 })
 
@@ -263,13 +269,13 @@ function clean(obj) {
     }
     let test = btnText
         .filter(x=>{
-            if(toString(x)!=='img'||toString(x)!=='artist'){
+            if(toString(x).trim()!=="img"||toString(x).trim()!=='artist'){
                 console.log(x)
             }
             return x!=='img'||x!=='artist'
         })
     // console.log(btnText)
-    console.log(test)
+    // console.log(test)
     return btnText
         .filter(x=>x!=='img'||x!=='artist')
   }

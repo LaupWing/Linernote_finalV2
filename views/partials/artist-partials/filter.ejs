@@ -12,7 +12,7 @@
               <label for="recent">Most Recent</label>
             </div>
             <div class="input-wrapper">
-                <input type="radio" id="Alphabetic" name="by" value="alphabetic">
+                <input type="radio" id="alphabetic" name="by" value="alphabetic">
                 <label for="alphabetic">Alphabetic Platform</label>
             </div>
         </div>
@@ -30,7 +30,10 @@
     <div class="keywords">
         <h3>Keywords</h3>
         <% mediaBtns.forEach(btn=>{ %>
-            <button class="active"><%= btn %></button>
+            <% if(btn!=='img'|| btn !== 'artist') {%>
+                <button class="active"><%= btn %></button>
+            <% } %>    
         <% }) %>
     </div>
+    <p class="reset">Reset settings</p>
 </div>
